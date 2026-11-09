@@ -1,56 +1,14 @@
-# sv
+# cloude
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Минималистичное тёмное приложение на SvelteKit со входом по почте и паролю (Better Auth).
 
-## Creating a project
+## Запуск
 
-If you're seeing this, you've probably already done this step. Congrats!
+1. `npm install` — скачать библиотеки (заодно ставит защиту от коммитов в `main`)
+2. Скопировать `.env.example` в `.env` и заполнить `BETTER_AUTH_SECRET` (команда для генерации — внутри файла)
+3. `npm run dev` — открыть http://localhost:5173
 
-```sh
-# create a new project
-npx sv create my-app
-```
+## Правила работы
 
-To recreate this project with the same configuration:
-
-```sh
-# recreate this project
-npx sv@1.3.0 create --template minimal --types ts --install npm .
-```
-
-## Adding features
-
-Add features to your project with `sv add`:
-
-```sh
-npx sv add
-```
-
-For example, to add Tailwind CSS:
-
-```sh
-npx sv add tailwindcss
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+- В `main` напрямую не коммитим — только через ветку и Pull Request.
+- GitHub Actions проверяет каждый Pull Request (типы + сборка).
