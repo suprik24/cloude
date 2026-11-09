@@ -1,32 +1,27 @@
 {
-	"name": "cloude",
-	"version": "0.0.1",
-	"private": true,
-	"type": "module",
-	"imports": {
-		"#lib": "./src/lib/index.js",
-		"#lib/*": "./src/lib/*"
-	},
-	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
-		"preview": "vite preview",
-		"prepare": "svelte-kit sync || echo '' && npm run hooks:install",
-		"hooks:install": "node -e \"const fs=require('fs');if(fs.existsSync('.git')){fs.copyFileSync('.githooks/pre-commit','.git/hooks/pre-commit');fs.chmodSync('.git/hooks/pre-commit',0o755)}\"",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
-	},
-	"devDependencies": {
-		"@sveltejs/adapter-auto": "^8.0.0",
-		"@sveltejs/kit": "^3.0.0",
-		"@sveltejs/vite-plugin-svelte": "^7.2.0",
-		"@types/node": "^26.6.6",
-		"svelte": "^5.57.2",
-		"svelte-check": "^4.6.0",
-		"typescript": "^6.0.3",
-		"vite": "^8.3.0"
-	},
-	"dependencies": {
-		"better-auth": "^1.7.18"
-	}
+  "name": "cloude",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "prepare": "npm run hooks:install",
+    "hooks:install": "node -e \"const fs=require('fs');if(fs.existsSync('.git')){fs.copyFileSync('.githooks/pre-commit','.git/hooks/pre-commit');fs.chmodSync('.git/hooks/pre-commit',0o755)}\"",
+    "generate-types": "wrangler types"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "svelte": "^5.57.3",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^14.4.6",
+    "@astrojs/svelte": "^9.1.2",
+    "astro": "^7.4.8",
+    "better-auth": "^1.7.18",
+    "wrangler": "^4.159.0"
+  }
 }
