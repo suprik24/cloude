@@ -10,10 +10,15 @@
     "check": "astro check",
     "prepare": "npm run hooks:install",
     "hooks:install": "node -e \"const fs=require('fs');if(fs.existsSync('.git')){fs.copyFileSync('.githooks/pre-commit','.git/hooks/pre-commit');fs.chmodSync('.git/hooks/pre-commit',0o755)}\"",
-    "generate-types": "wrangler types"
+    "generate-types": "wrangler types",
+    "auth:schema": "node scripts/generate-auth-schema.ts",
+    "db:migrate:local": "wrangler d1 migrations apply cloude-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply cloude-db --remote",
+    "deploy": "astro build && wrangler deploy"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "@types/node": "^26.6.6",
     "svelte": "^5.57.3",
     "typescript": "^6.0.3"
   },
