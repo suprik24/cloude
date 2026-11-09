@@ -1,0 +1,36 @@
+# Runs on every Pull Request into main and on every push to main.
+# Branch protection requires this check to pass before a PR can be merged.
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      # Placeholder used only to build in CI. The real secret lives in .env locally
+      # and in GitHub Secrets / hosting settings once deployment is set up.
+      BETTER_AUTH_SECRET: ci-build-only-placeholder-secret-0000000000
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 26
+          cache: npm
+
+      # Clean install exactly from package-lock.json
+      - run: npm ci
+
+      # Type check (svelte-check)
+      - run: npm run check
+
+      # Production build
+      - run: npm run build
+
+  # deploy:
+  #   Added once a hosting provider is chosen: runs only on push to main, after `check` passes.
