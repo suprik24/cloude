@@ -1,0 +1,4 @@
+# Local secrets for `npm run dev` (Cloudflare reads .dev.vars). Copy to .dev.vars. Never commit .dev.vars.
+# Random string, at least 32 chars. Generate: node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+# In production set it with: npx wrangler secret put BETTER_AUTH_SECRET
+BETTER_AUTH_SECRET=

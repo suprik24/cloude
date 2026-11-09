@@ -1,20 +1,35 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-	import type { PageProps } from './$types';
-
-	let { form }: PageProps = $props();
+	import { authClient, errorMessage } from '../lib/auth-client';
 
 	let mode = $state<'signIn' | 'signUp'>('signIn');
+	let email = $state('');
+	let password = $state('');
 	let pending = $state(false);
+	let message = $state('');
 
-	$effect(() => {
-		if (form?.mode) mode = form.mode as 'signIn' | 'signUp';
-	});
+	async function submit(event: SubmitEvent) {
+		event.preventDefault();
+		pending = true;
+		message = '';
+
+		const { error } =
+			mode === 'signIn'
+				? await authClient.signIn.email({ email, password })
+				: await authClient.signUp.email({ email, password, name: email.split('@')[0] });
+
+		pending = false;
+		if (error) {
+			message = errorMessage(error);
+			return;
+		}
+		window.location.href = '/';
+	}
+
+	function toggleMode() {
+		mode = mode === 'signIn' ? 'signUp' : 'signIn';
+		message = '';
+	}
 </script>
-
-<svelte:head>
-	<title>{mode === 'signIn' ? 'Вход' : 'Регистрация'}</title>
-</svelte:head>
 
 <div class="card">
 	<h1>{mode === 'signIn' ? 'Вход' : 'Регистрация'}</h1>
@@ -22,32 +37,22 @@
 		{mode === 'signIn' ? 'Войди по почте и паролю' : 'Создай аккаунт по почте и паролю'}
 	</p>
 
-	<form
-		method="POST"
-		action="?/{mode}"
-		use:enhance={() => {
-			pending = true;
-			return async ({ update }) => {
-				await update();
-				pending = false;
-			};
-		}}
-	>
+	<form onsubmit={submit}>
 		<label for="email">Почта</label>
-		<input id="email" name="email" type="email" autocomplete="email" required value={form?.email ?? ''} />
+		<input id="email" type="email" autocomplete="email" required bind:value={email} />
 
 		<label for="password">Пароль</label>
 		<input
 			id="password"
-			name="password"
 			type="password"
 			minlength="8"
 			autocomplete={mode === 'signIn' ? 'current-password' : 'new-password'}
 			required
+			bind:value={password}
 		/>
 
-		{#if form?.message}
-			<p class="error">{form.message}</p>
+		{#if message}
+			<p class="error">{message}</p>
 		{/if}
 
 		<button type="submit" disabled={pending}>
@@ -57,7 +62,7 @@
 
 	<p class="switch">
 		{mode === 'signIn' ? 'Нет аккаунта?' : 'Уже есть аккаунт?'}
-		<button type="button" class="link" onclick={() => (mode = mode === 'signIn' ? 'signUp' : 'signIn')}>
+		<button type="button" class="link" onclick={toggleMode}>
 			{mode === 'signIn' ? 'Регистрация' : 'Войти'}
 		</button>
 	</p>

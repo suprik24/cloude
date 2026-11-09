@@ -1,5 +1,5 @@
-# Runs on every Pull Request into main and on every push to main.
-# Branch protection requires this check to pass before a PR can be merged.
+# check:  every Pull Request into main and every push to main (required by branch protection).
+# deploy: only on push to main (i.e. after a PR is merged), only if check passed.
 name: CI
 
 on:
@@ -11,10 +11,6 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
-    env:
-      # Placeholder used only to build in CI. The real secret lives in .env locally
-      # and in GitHub Secrets / hosting settings once deployment is set up.
-      BETTER_AUTH_SECRET: ci-build-only-placeholder-secret-0000000000
     steps:
       - uses: actions/checkout@v5
 
@@ -26,11 +22,33 @@ jobs:
       # Clean install exactly from package-lock.json
       - run: npm ci
 
-      # Type check (svelte-check)
+      # Type check (astro check: .astro, .svelte and .ts files)
       - run: npm run check
 
-      # Production build
+      # Production build for Cloudflare Workers
       - run: npm run build
 
-  # deploy:
-  #   Added once a hosting provider is chosen: runs only on push to main, after `check` passes.
+  deploy:
+    needs: check
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    # One deploy at a time; a newer push waits for the running one
+    concurrency: production
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 26
+          cache: npm
+
+      - run: npm ci
+
+      # Apply new D1 migrations (already applied ones are skipped)
+      - run: npx wrangler d1 migrations apply cloude-db --remote
+
+      # astro build + wrangler deploy
+      - run: npm run deploy
