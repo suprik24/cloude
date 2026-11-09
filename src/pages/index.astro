@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SignOutButton from '../components/SignOutButton.svelte';
+
+// Middleware already redirected guests to /login
+const user = Astro.locals.user!;
+---
+
+<Layout title="Главная">
+	<div class="card">
+		<h1>Ты вошёл</h1>
+		<p class="muted">{user.email}</p>
+		<SignOutButton client:load />
+	</div>
+</Layout>
