@@ -26,7 +26,7 @@
 
 ## Скиллы для Claude
 
-В `.claude/skills/` лежат скиллы из [mattpocock/skills](https://github.com/mattpocock/skills), скопированные без изменений:
+В `.claude/skills/` лежат скиллы из [mattpocock/skills](https://github.com/mattpocock/skills), скопированные без изменений (кроме имени `code-review`, см. ниже):
 
-- `code-review` — ревью Pull Request'а по двум осям: соответствие правилам проекта (Standards) и заданию (Spec). Перед влитием PR проси Claude пройтись по нему этим скиллом. Если скилл предложит запустить `/setup-matt-pocock-skills` — это можно игнорировать.
+- `two-axis-review` — ревью Pull Request'а по двум осям: соответствие правилам проекта (Standards) и заданию (Spec). Перед влитием PR проси Claude пройтись по нему этим скиллом. В оригинале он называется `code-review`; переименован, чтобы не путаться со встроенным в Claude Code `/code-review` (тот ищет баги, а этот сверяет с правилами и заданием). Если скилл предложит запустить `/setup-matt-pocock-skills` — это можно игнорировать.
 - `grill-me` (+ `grilling`, без которого он не работает) — Claude задаёт вопросы раундами, чтобы проверить план, когда непонятно, как что-то сделать. Сам Claude его не запускает — набери `/grill-me`.
