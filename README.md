@@ -23,6 +23,7 @@
 - В `main` напрямую не коммитим — только через ветку и Pull Request.
 - GitHub Actions проверяет каждый Pull Request (типы + сборка), а после влития в `main` сам выкладывает сайт на Cloudflare.
 - Dependabot раз в неделю сам открывает Pull Request'ы с обновлениями: один для GitHub Actions (`actions`), один для мелких обновлений JS-библиотек (`js`) и по отдельному на каждое крупное (major) обновление. Зелёная галочка робота — можно вливать; красный крестик — обновление что-то ломает, не вливать.
+  Исключение: крупные (major) обновления TypeScript Dependabot пока не предлагает — `@astrojs/check` поддерживает только TypeScript 5–6. Правило `ignore` в `.github/dependabot.yml`; убрать, когда `@astrojs/check` научится работать с TypeScript 7.
 
 ## Скиллы для Claude
 
