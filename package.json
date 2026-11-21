@@ -15,16 +15,14 @@
     "auth:schema": "node scripts/generate-auth-schema.ts",
     "db:migrate:local": "wrangler d1 migrations apply cloude-db --local",
     "db:migrate:remote": "wrangler d1 migrations apply cloude-db --remote",
-    "deploy": "npm run build && wrangler deploy",
-    "check:i18n": "inlang check --project ./project.inlang"
+    "deploy": "npm run build && wrangler deploy"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
     "@inlang/paraglide-js": "^3.2.2",
     "@types/node": "^26.6.6",
     "svelte": "^5.57.3",
-    "typescript": "^6.0.3",
-    "@inlang/cli": "^3.4.0"
+    "typescript": "^6.0.3"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.4.6",
