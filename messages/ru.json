@@ -10,6 +10,8 @@
   "sign_up_button": "Зарегистрироваться",
   "no_account": "Нет аккаунта?",
   "have_account": "Уже есть аккаунт?",
+  "switch_to_sign_up": "Регистрация",
+  "switch_to_sign_in": "Войти",
   "home_title": "Главная",
   "home_heading": "Ты вошёл",
   "sign_out_button": "Выйти",

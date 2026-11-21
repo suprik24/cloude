@@ -65,7 +65,7 @@
 	<p class="switch">
 		{mode === 'signIn' ? m.no_account() : m.have_account()}
 		<button type="button" class="link" onclick={toggleMode}>
-			{mode === 'signIn' ? m.sign_up_heading() : m.sign_in_button()}
+			{mode === 'signIn' ? m.switch_to_sign_up() : m.switch_to_sign_in()}
 		</button>
 	</p>
 </div>

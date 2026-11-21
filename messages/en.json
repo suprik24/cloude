@@ -10,6 +10,8 @@
   "sign_up_button": "Sign up",
   "no_account": "No account?",
   "have_account": "Already have an account?",
+  "switch_to_sign_up": "Sign up",
+  "switch_to_sign_in": "Sign in",
   "home_title": "Home",
   "home_heading": "You're signed in",
   "sign_out_button": "Sign out",
