@@ -1,8 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import AuthForm from '../components/AuthForm.svelte';
+import { m } from '../paraglide/messages.js';
 ---
 
-<Layout title="Вход">
+<Layout title={m.sign_in_heading()}>
 	<AuthForm client:load />
 </Layout>

@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { authClient, errorMessage } from '../lib/auth-client';
+	import { m } from '../paraglide/messages.js';
+	import { localizeHref } from '../paraglide/runtime.js';
 
 	let mode = $state<'signIn' | 'signUp'>('signIn');
 	let email = $state('');
@@ -22,7 +24,7 @@
 			message = errorMessage(error);
 			return;
 		}
-		window.location.href = '/';
+		window.location.href = localizeHref('/');
 	}
 
 	function toggleMode() {
@@ -32,16 +34,16 @@
 </script>
 
 <div class="card">
-	<h1>{mode === 'signIn' ? 'Вход' : 'Регистрация'}</h1>
+	<h1>{mode === 'signIn' ? m.sign_in_heading() : m.sign_up_heading()}</h1>
 	<p class="muted">
-		{mode === 'signIn' ? 'Войди по почте и паролю' : 'Создай аккаунт по почте и паролю'}
+		{mode === 'signIn' ? m.sign_in_subtitle() : m.sign_up_subtitle()}
 	</p>
 
 	<form onsubmit={submit}>
-		<label for="email">Почта</label>
+		<label for="email">{m.email_label()}</label>
 		<input id="email" type="email" autocomplete="email" required bind:value={email} />
 
-		<label for="password">Пароль</label>
+		<label for="password">{m.password_label()}</label>
 		<input
 			id="password"
 			type="password"
@@ -56,14 +58,14 @@
 		{/if}
 
 		<button type="submit" disabled={pending}>
-			{mode === 'signIn' ? 'Войти' : 'Зарегистрироваться'}
+			{mode === 'signIn' ? m.sign_in_button() : m.sign_up_button()}
 		</button>
 	</form>
 
 	<p class="switch">
-		{mode === 'signIn' ? 'Нет аккаунта?' : 'Уже есть аккаунт?'}
+		{mode === 'signIn' ? m.no_account() : m.have_account()}
 		<button type="button" class="link" onclick={toggleMode}>
-			{mode === 'signIn' ? 'Регистрация' : 'Войти'}
+			{mode === 'signIn' ? m.sign_up_heading() : m.sign_in_button()}
 		</button>
 	</p>
 </div>
