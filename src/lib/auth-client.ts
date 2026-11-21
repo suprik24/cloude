@@ -13,7 +13,8 @@ const messages: Record<string, () => string> = {
 	USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL: m.error_user_exists
 };
 
-export function errorMessage(error: { code?: string; message?: string }) {
+// Unknown codes get a translated generic text instead of Better Auth's English message
+export function errorMessage(error: { code?: string }) {
 	const message = error.code ? messages[error.code] : undefined;
-	return message ? message() : error.message || m.error_generic();
+	return message ? message() : m.error_generic();
 }
