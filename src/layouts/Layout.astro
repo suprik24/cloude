@@ -1,15 +1,20 @@
 ---
 import '../styles/global.css';
+import { m } from '../paraglide/messages.js';
+import { deLocalizeHref, getLocale, locales, localizeHref } from '../paraglide/runtime.js';
 
 interface Props {
 	title: string;
 }
 
 const { title } = Astro.props;
+const currentLocale = getLocale();
+// Same page in every locale, e.g. /en/login -> /login and /en/login
+const path = deLocalizeHref(Astro.url.pathname);
 ---
 
 <!doctype html>
-<html lang="ru">
+<html lang={currentLocale}>
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,8 +22,50 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
+		<nav class="locales" aria-label={m.language_label()}>
+			{
+				locales.map((locale) => (
+					<a
+						href={localizeHref(path, { locale })}
+						hreflang={locale}
+						aria-current={locale === currentLocale ? 'true' : undefined}
+					>
+						{locale.toUpperCase()}
+					</a>
+				))
+			}
+		</nav>
 		<main>
 			<slot />
 		</main>
 	</body>
 </html>
+
+<style>
+	.locales {
+		position: fixed;
+		top: 16px;
+		right: 16px;
+		display: flex;
+		gap: 4px;
+	}
+
+	.locales a {
+		padding: 4px 8px;
+		border-radius: 6px;
+		color: var(--muted);
+		font-size: 12px;
+		text-decoration: none;
+		transition: color 0.15s;
+	}
+
+	.locales a:hover {
+		color: var(--text);
+	}
+
+	.locales a[aria-current] {
+		color: var(--text);
+		background: var(--surface);
+		border: 1px solid var(--border);
+	}
+</style>

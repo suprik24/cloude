@@ -1,14 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import SignOutButton from '../components/SignOutButton.svelte';
+import { m } from '../paraglide/messages.js';
 
 // Middleware already redirected guests to /login
 const user = Astro.locals.user!;
 ---
 
-<Layout title="Главная">
+<Layout title={m.home_title()}>
 	<div class="card">
-		<h1>Ты вошёл</h1>
+		<h1>{m.home_heading()}</h1>
 		<p class="muted">{user.email}</p>
 		<SignOutButton client:load />
 	</div>

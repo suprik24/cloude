@@ -18,6 +18,7 @@ Deployed to Cloudflare Workers via Wrangler CLI: https://cloude.suprik24.workers
 - `src/components/*.svelte` — islands; `src/lib/auth-client.ts` — Better Auth client
 - `src/lib/auth.ts` — Better Auth server on D1 (`env.DB` from `cloudflare:workers`)
 - `src/lib/auth-options.ts` — shared options; changing them → `npm run auth:schema` → new migration in `migrations/`
+- i18n (Paraglide JS): locales `ru` (base, no URL prefix) and `en` (`/en/...`). No user-facing text in code — add keys to both `messages/ru.json` and `messages/en.json`, use `m.key()` from `src/paraglide/messages.js`. Routing/strategy in `project.inlang/paraglide.config.js`. `src/paraglide/` is generated (git-ignored): never edit it. Redirects/links use `localizeHref()`.
 
 ## Commands (owner's PowerShell blocks npm.ps1 — use `npm.cmd` there)
 
@@ -26,3 +27,4 @@ Deployed to Cloudflare Workers via Wrangler CLI: https://cloude.suprik24.workers
 - `npm run db:migrate:local` / `npm run db:migrate:remote` — apply D1 migrations
 - `npm run deploy` — build + `wrangler deploy` (CI does this automatically on push to main)
 - `npm run generate-types` — regenerate `worker-configuration.d.ts` after changing `wrangler.jsonc`
+- `npm run i18n:compile` — compile `messages/*.json` into `src/paraglide` (also runs as part of `check` and `build`)
